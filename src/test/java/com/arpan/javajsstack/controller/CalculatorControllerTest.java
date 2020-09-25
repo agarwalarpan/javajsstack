@@ -32,7 +32,7 @@ class CalculatorControllerTest {
         CalculatorOperation result = calculatorController.calculate(calculatorOperation);
 
         verify(calculatorService, times(1)).add(1, 2);
-        assertThat(result.getResult()).isEqualTo(3);
+        assertThat(result.getResult()).isEqualTo(4);
     }
 
 }
