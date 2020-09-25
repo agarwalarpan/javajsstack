@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/calculator")
+@CrossOrigin(origins = "*")
 public class CalculatorController {
 
 
