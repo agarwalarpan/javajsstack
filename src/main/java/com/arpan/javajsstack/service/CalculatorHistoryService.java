@@ -3,11 +3,13 @@ package com.arpan.javajsstack.service;
 import com.arpan.javajsstack.model.CalculatorOperation;
 import com.arpan.javajsstack.respository.CalculatorOperationRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class CalculatorHistoryService {
 
 
@@ -17,6 +19,7 @@ public class CalculatorHistoryService {
         this.calculatorOperationRepository = calculatorOperationRepository;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void saveDataAndGetSequence(CalculatorOperation calculatorOperation) {
         CalculatorOperation savedValue = calculatorOperationRepository.save(calculatorOperation);
         calculatorOperation.setSeq(savedValue.getSeq());
@@ -30,6 +33,7 @@ public class CalculatorHistoryService {
         return calculatorOperationRepository.getOperationsContaining(chars);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public CalculatorOperation updateResult(Integer seq, Integer result) {
         Optional<CalculatorOperation> optionalRow = calculatorOperationRepository.findById(seq);
         CalculatorOperation calculatorOperation = optionalRow.orElseThrow();

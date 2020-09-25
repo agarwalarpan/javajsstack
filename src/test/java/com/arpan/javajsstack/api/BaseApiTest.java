@@ -45,4 +45,9 @@ public class BaseApiTest {
         return objectMapper.readTree(response.getBody());
     }
 
+
+    protected String getBaseUrl() {
+        return "http://localhost:" + port;
+    }
+
 }

@@ -12,6 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CalculateApiTest extends BaseApiTest {
 
+	private final String calcUrl = "/calculator/calculate";
+
 	@Test
 	void calculatorAddsTwoNumbers() throws JSONException, JsonProcessingException {
 		JSONObject request = new JSONObject();
@@ -19,12 +21,13 @@ class CalculateApiTest extends BaseApiTest {
 		request.put("b", 2);
 		request.put("type", "addition");
 
-		JsonNode response = makePostRequest("http://localhost:" + port + "/calculator/calculate", request);
+		JsonNode response = makePostRequest(getBaseUrl() + calcUrl, request);
 
 		assertThat(response).isNotNull();
 		assertThat(response.path("result").asInt()).isEqualTo(3);
 
 	}
+
 
 	@Test
 	void calculateThrowsCorrectException() throws JSONException, JsonProcessingException {
@@ -33,7 +36,7 @@ class CalculateApiTest extends BaseApiTest {
 		request.put("b", 0);
 		request.put("type", "division");
 
-		JsonNode response = makePostRequest("http://localhost:" + port + "/calculator/calculate", request, HttpStatus.INTERNAL_SERVER_ERROR);
+		JsonNode response = makePostRequest(getBaseUrl() + calcUrl, request, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		assertThat(response.path("message").asText()).isEqualTo("");
 	}
