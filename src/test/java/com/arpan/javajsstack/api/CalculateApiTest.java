@@ -33,7 +33,7 @@ class CalculateApiTest extends BaseApiTest {
 		request.put("b", 0);
 		request.put("type", "division");
 
-		JsonNode response = makePostRequestExpectingError("http://localhost:" + port + "/calculator/calculate", request, HttpStatus.INTERNAL_SERVER_ERROR);
+		JsonNode response = makePostRequest("http://localhost:" + port + "/calculator/calculate", request, HttpStatus.INTERNAL_SERVER_ERROR);
 
 		assertThat(response.path("message").asText()).isEqualTo("");
 	}

@@ -26,19 +26,14 @@ public class BaseApiTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     protected JsonNode makePostRequest(String url, JSONObject request) throws JsonProcessingException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(APPLICATION_JSON);
-
-        HttpEntity<String> entity = new HttpEntity<>(request.toString(), headers);
-
-        ResponseEntity<String> response = this.testRestTemplate.postForEntity(url, entity, String.class);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        return objectMapper.readTree(response.getBody());
+        return getResponseAssertingCode(url, request, HttpStatus.OK);
     }
 
-    protected JsonNode makePostRequestExpectingError(String url, JSONObject request, HttpStatus status) throws JsonProcessingException {
+    protected JsonNode makePostRequest(String url, JSONObject request, HttpStatus expectedStatus) throws JsonProcessingException {
+        return getResponseAssertingCode(url, request, expectedStatus);
+    }
+
+    private JsonNode getResponseAssertingCode(String url, JSONObject request, HttpStatus expectedStatus) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
 
@@ -46,8 +41,7 @@ public class BaseApiTest {
 
         ResponseEntity<String> response = this.testRestTemplate.postForEntity(url, entity, String.class);
 
-        assertThat(response.getStatusCode()).isEqualTo(status);
-
+        assertThat(response.getStatusCode()).isEqualTo(expectedStatus);
         return objectMapper.readTree(response.getBody());
     }
 
