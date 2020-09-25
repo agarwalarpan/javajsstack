@@ -39,7 +39,7 @@ public class BaseApiTest {
     }
 
     protected JsonNode makePostRequestExpectingError(String url, JSONObject request, HttpStatus status) throws JsonProcessingException {
-        HttpHeaders header = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
 
         HttpEntity<String> entity = new HttpEntity<>(request.toString(), headers);
